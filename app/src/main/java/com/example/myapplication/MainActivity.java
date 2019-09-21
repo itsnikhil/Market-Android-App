@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -58,8 +59,11 @@ public class MainActivity extends AppCompatActivity
         TextView userEmail = navView.findViewById(R.id.personEmail);
         ImageView userPhoto = navView.findViewById(R.id.personProfile);
 
+        TextView welcomeTxt = findViewById(R.id.welcomeUser);
+
         if (acct != null) {
             String personName = acct.getDisplayName();
+            welcomeTxt.setText("Hello, "+personName+"!");
             String personGivenName = acct.getGivenName();
             String personFamilyName = acct.getFamilyName();
             String personEmail = acct.getEmail();
@@ -95,6 +99,12 @@ public class MainActivity extends AppCompatActivity
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        Button showBtn = findViewById(R.id.show);
+        showBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), SearchItemActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void handleIntent(Intent intent) {
