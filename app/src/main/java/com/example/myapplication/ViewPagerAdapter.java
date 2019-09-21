@@ -1,13 +1,14 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.image_holder, null);
         ImageView imageView = view.findViewById(R.id.imageButton);
-        Picasso.with(context)
+        Picasso.get()
                 .load(images[position])
                 .resize(300, 200)
                 .centerCrop()

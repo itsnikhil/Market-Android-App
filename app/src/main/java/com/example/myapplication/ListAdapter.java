@@ -1,10 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -77,7 +78,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
         holder.desc.setText(itemModal.getDescription());
 //        category.setText(itemModal.getCategory());
         holder.inventory.setText(String.valueOf(itemModal.getInventory()));
-        Picasso.with(context)
+        Picasso.get()
                 .load(context.getResources().getIdentifier(itemModal.getImage(), "drawable", context.getPackageName()))
                 .resize(400, 200)
                 .centerCrop()

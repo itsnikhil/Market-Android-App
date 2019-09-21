@@ -1,9 +1,6 @@
 package com.example.myapplication.ui.login;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
-
-import com.example.myapplication.CheckoutActivity;
+import androidx.annotation.Nullable;
 
 /**
  * Authentication result : success (user details) or error message.

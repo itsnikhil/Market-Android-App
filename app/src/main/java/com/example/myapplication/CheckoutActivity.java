@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -13,7 +13,7 @@ public class CheckoutActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 

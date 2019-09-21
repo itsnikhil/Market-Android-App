@@ -3,7 +3,7 @@ package com.example.myapplication;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
 public class SearchItemActivity extends AppCompatActivity {
@@ -15,7 +15,7 @@ public class SearchItemActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
