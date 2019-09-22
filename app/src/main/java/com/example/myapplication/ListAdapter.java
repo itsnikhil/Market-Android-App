@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,8 +36,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
         public TextView inventory;
         public ImageView image;
         public TextView price;
-        public Button add;
-        public Button sub;
+        public com.google.android.material.button.MaterialButton add;
+        public com.google.android.material.button.MaterialButton sub;
         public CardView card_view;
 
         public MyViewHolder(@NonNull View itemView) {

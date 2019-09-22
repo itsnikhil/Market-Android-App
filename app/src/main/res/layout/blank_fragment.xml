@@ -8,22 +8,27 @@
     tools:context=".SearchFragment">
 
     <!-- A RecyclerView with some commonly used attributes -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        app:iconGravity="textStart"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
+        android:layout_margin="10dp"
         android:contentDescription="Checkout"
         android:backgroundTint="@color/colorPrimaryDark"
-        app:borderWidth="0dp"
-        android:tint="@color/white"
-        android:src="@drawable/ic_shopping_cart_black_24dp" />
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        android:text="Checkout"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        app:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:layout_gravity="bottom|center" />
 
 </FrameLayout>
