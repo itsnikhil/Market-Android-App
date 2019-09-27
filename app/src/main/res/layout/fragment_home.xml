@@ -33,20 +33,40 @@
             app:layout_constraintTop_toBottomOf="@+id/viewpage" />
 
         <Button
+            android:id="@+id/arscene"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show AR"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mArButton" />
+
+        <Button
+            android:id="@+id/mArButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable ARCore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show" />
+
+        <Button
             android:id="@+id/show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="See all Items"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcomeUser" />
 
         <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="182dp"
-            tools:layout_editor_absoluteY="163dp" />
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="-48dp">
+
+        </androidx.viewpager.widget.ViewPager>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

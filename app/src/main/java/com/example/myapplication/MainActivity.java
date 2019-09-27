@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.ar.core.ArCoreApk;
+import com.google.ar.core.Session;
+import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleSignInClient mGoogleSignInClient;
     private FragmentManager fm;
+    private boolean mUserRequestedInstall = true;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +65,8 @@ public class MainActivity extends AppCompatActivity
         TextView userEmail = navView.findViewById(R.id.personEmail);
         ImageView userPhoto = navView.findViewById(R.id.personProfile);
 
-        TextView welcomeTxt = findViewById(R.id.welcomeUser);
-
         if (acct != null) {
             String personName = acct.getDisplayName();
-            welcomeTxt.setText("Hello, "+personName+"!");
             String personGivenName = acct.getGivenName();
             String personFamilyName = acct.getFamilyName();
             String personEmail = acct.getEmail();
@@ -99,12 +102,6 @@ public class MainActivity extends AppCompatActivity
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        Button showBtn = findViewById(R.id.show);
-        showBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SearchItemActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void handleIntent(Intent intent) {
@@ -114,6 +111,7 @@ public class MainActivity extends AppCompatActivity
             //use the query to search your data somehow
             Toast.makeText(getApplicationContext(), "You searched for: "+query, Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override
@@ -211,7 +209,80 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        maybeEnableArButton();
+
         return true;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
+        if (!CameraPermissionHelper.hasCameraPermission(this)) {
+            Toast.makeText(this, "Camera permission is needed to run this application", Toast.LENGTH_LONG)
+                    .show();
+            if (!CameraPermissionHelper.shouldShowRequestPermissionRationale(this)) {
+                // Permission denied with checking "Do not ask again".
+                CameraPermissionHelper.launchPermissionSettings(this);
+            }
+            finish();
+        }
+    }
+
+    void maybeEnableArButton() {
+        ArCoreApk.Availability availability = ArCoreApk.getInstance().checkAvailability(this);
+        if (availability.isTransient()) {
+            // Re-query at 5Hz while compatibility is checked in the background.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    maybeEnableArButton();
+                }
+            }, 200);
+        }
+        Button mArButton = findViewById(R.id.arscene);
+        if (availability.isSupported()) {
+            mArButton.setVisibility(View.VISIBLE);
+            mArButton.setEnabled(true);
+            // indicator on the button.
+        } else { // Unsupported or unknown.
+            mArButton.setVisibility(View.INVISIBLE);
+            mArButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            if (session == null) {
+                switch (ArCoreApk.getInstance().requestInstall(this, mUserRequestedInstall)) {
+                    case INSTALLED:
+                        // Success, create the AR session.
+                        session = new Session(this);
+                        break;
+                    case INSTALL_REQUESTED:
+                        // Ensures next invocation of requestInstall() will either return
+                        // INSTALLED or throw an exception.
+                        mUserRequestedInstall = false;
+                        return;
+                }
+            }
+        } catch (UnavailableUserDeclinedInstallationException e) {
+            // Display an appropriate message to the user and return gracefully.
+            Toast.makeText(this, "TODO: handle exception " + e, Toast.LENGTH_LONG)
+                    .show();
+            return;
+        } catch (Exception e) {  // Current catch statements.
+            return;  // mSession is still null.
+        }
+
+        // ARCore requires camera permission to operate.
+        if (!CameraPermissionHelper.hasCameraPermission(this)) {
+            CameraPermissionHelper.requestCameraPermission(this);
+            return;
+        }
+    }
+
 }
 

@@ -1,10 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.ar.sceneform.plugin'
+
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdkVersion 15
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -17,8 +19,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildToolsVersion = '28.0.3'
 }
@@ -42,4 +44,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // ARCore
+    implementation 'com.google.ar:core:1.12.0'
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.12.0'
+    implementation 'com.google.ar.sceneform:core:1.12.0'
 }
+
+sceneform.asset('sampledata/burger3d/Hamburger.gltf',
+        'default',
+        'sampledata/burger3d/Hamburger.sfa',
+        'src/main/assets/Hamburger')
